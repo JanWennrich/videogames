@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Jan's Games Library</title>
+
+    <style>
+        :root {
+            --game-row-height: 30px;
+        }
+
+        .game-rows {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-row {
+            height: var(--game-row-height);
+        }
+
+        .game-column-icon img {
+            height: var(--game-row-height);
+        }
+    </style>
+</head>
+
+<body>
+<table class="game-rows">
+    <thead>
+    <tr>
+        <td>Title</td>
+        <td>Playtime</td>
+        <td>Platform</td>
+        <td>Installed?</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for game in games %}
+        <tr class="game-row">
+            <td class="game-column game-column-name">{{ game.name }}</td>
+            <td class="game-column game-column-playtime">
+                <time datetime="PT{{ game.playtimeInHours }}H">
+                    {% if game.playtimeInHours > 0 %}
+                        {{ game.playtimeInHours }} h
+                    {% endif %}
+                </time>
+            </td>
+            <td class="game-column game-column-icon"><img src="../{{ game.platform.iconPath }}" alt="{{ game.platform.name }}" title="{{ game.platform.name }}"/></td>
+            <td class="game-column game-column-installed">{{ game.isInstalled ? "✓" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

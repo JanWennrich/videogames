@@ -1,0 +1,42 @@
+{
+  "name": "jan/games-library",
+  "description": "Static site generator for my (PC) games library",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "php-di/php-di": "^7.0.7",
+    "twig/twig": "^3.14.0"
+  },
+  "require-dev": {
+    "captainhook/captainhook": "^5.23.5",
+    "phpstan/extension-installer": "^1.4.3",
+    "phpstan/phpstan": "^1.12.3",
+    "phpstan/phpstan-phpunit": "^1.4",
+    "phpunit/phpunit": "^11.3.5",
+    "squizlabs/php_codesniffer": "^3.10.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jan\\GamesLibrary\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jan\\GamesLibrary\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpstan",
+      "vendor/bin/phpunit",
+      "vendor/bin/phpcs"
+    ]
+  }
+}
