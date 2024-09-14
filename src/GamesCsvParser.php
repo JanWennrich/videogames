@@ -26,8 +26,7 @@ final readonly class GamesCsvParser
 
         $games = [];
 
-        fgetcsv(stream: $gamesCsvFileHandle); // Skip first line containing "#TYPE"
-        fgetcsv(stream: $gamesCsvFileHandle); // Skip second line containing column names
+        fgetcsv(stream: $gamesCsvFileHandle); // Skip first line containing column names
         while (($gameRecord = fgetcsv(stream: $gamesCsvFileHandle, separator: ",", enclosure: '"')) !== false) {
             $gameName = $this->getNameFromGameRecord($gameRecord);
 
@@ -60,7 +59,7 @@ final readonly class GamesCsvParser
      */
     public function getPlatformFromGameRecord(array $gameRecord): Platform
     {
-        return $this->platformFactory->getPlatformByName($gameRecord[1]);
+        return $this->platformFactory->getPlatformByName($gameRecord[28]);
     }
 
     /**
@@ -68,7 +67,7 @@ final readonly class GamesCsvParser
      */
     public function getPlayTimeFromGameRecord(array $gameRecord): int
     {
-        return intval($gameRecord[3] ?? 0);
+        return intval($gameRecord[26] ?? 0);
     }
 
     /**
@@ -76,6 +75,6 @@ final readonly class GamesCsvParser
      */
     public function getInstallationStatusFromGameRecord(array $gameRecord): bool
     {
-        return $gameRecord[4] === "True";
+        return $gameRecord[13] === "True";
     }
 }
