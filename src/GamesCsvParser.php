@@ -28,6 +28,10 @@ final readonly class GamesCsvParser
 
         fgetcsv(stream: $gamesCsvFileHandle); // Skip first line containing column names
         while (($gameRecord = fgetcsv(stream: $gamesCsvFileHandle, separator: ",", enclosure: '"')) !== false) {
+            if ($this->isGameRecordHidden($gameRecord)) {
+                continue;
+            }
+
             $gameName = $this->getNameFromGameRecord($gameRecord);
 
             if ($gameName === '') {
@@ -38,7 +42,7 @@ final readonly class GamesCsvParser
                 name: $gameName,
                 platform: $this->getPlatformFromGameRecord($gameRecord),
                 playtimeInSeconds: $this->getPlayTimeFromGameRecord($gameRecord),
-                isInstalled: $this->getInstallationStatusFromGameRecord($gameRecord)
+                isInstalled: $this->getInstallationStatusFromGameRecord($gameRecord),
             );
         }
         fclose($gamesCsvFileHandle);
@@ -76,5 +80,13 @@ final readonly class GamesCsvParser
     public function getInstallationStatusFromGameRecord(array $gameRecord): bool
     {
         return $gameRecord[13] === "True";
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     */
+    public function isGameRecordHidden(array $gameRecord): bool
+    {
+        return $gameRecord[8] === "True";
     }
 }
