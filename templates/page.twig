@@ -26,20 +26,21 @@
         }
     </style>
 </head>
-
 <body>
+
+<label for="name-filter">Filter: </label><input type="text" id="name-filter">
 <table class="game-rows">
     <thead>
     <tr>
-        <td>Title</td>
-        <td>Playtime</td>
-        <td>Platform</td>
-        <td>Installed?</td>
-        <td>Favorite?</td>
-        <td>Couch Coop?</td>
-        <td>Genres</td>
-        <td>Community Score</td>
-        <td>Critic Score</td>
+        <th>Title</th>
+        <th>Playtime</th>
+        <th>Platform</th>
+        <th>Installed?</th>
+        <th>Favorite?</th>
+        <th>Couch Coop?</th>
+        <th>Genres</th>
+        <th>Community Score</th>
+        <th>Critic Score</th>
     </tr>
     </thead>
     <tbody>
@@ -53,10 +54,20 @@
                     {% endif %}
                 </time>
             </td>
-            <td class="game-column game-column-icon"><img src="../{{ game.platform.iconPath }}" alt="{{ game.platform.name }}" title="{{ game.platform.name }}"/></td>
-            <td class="game-column game-column-installed">{{ game.isInstalled ? "🎮" }}</td>
-            <td class="game-column game-column-favorite">{{ game.isFavorite ? "⭐️" }}</td>
-            <td class="game-column game-column-couch-coop">{{ game.isCouchCoopGame ? "🤝" }}</td>
+            <td class="game-column game-column-platform">
+                <img src="../{{ game.platform.iconPath }}"
+                     alt="{{ game.platform.name }}"
+                     title="{{ game.platform.name }}"/>
+            </td>
+            <td class="game-column game-column-installed">
+                {{ game.isInstalled ? "🎮" }}
+            </td>
+            <td class="game-column game-column-favorite">
+                {{ game.isFavorite ? "⭐️" }}
+            </td>
+            <td class="game-column game-column-couch-coop">
+                {{ game.isCouchCoopGame ? "🤝" }}
+            </td>
             <td class="game-column game-column-genres">
                 <ul>
                     {% for genre in game.genres %}
@@ -64,11 +75,64 @@
                     {% endfor %}
                 </ul>
             </td>
-            <td class="game-column game-column-community-score">{{ game.communityScore.value }}</td>
-            <td class="game-column game-column-critic-score">{{ game.criticScore.value }}</td>
+            <td class="game-column game-column-community-score">
+                {{ game.communityScore.value }}
+            </td>
+            <td class="game-column game-column-critic-score">
+                {{ game.criticScore.value }}
+            </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+<script>
+    function debounce(fn, delay) {
+        let timeoutId;
+        return function (...args) {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(() => {
+                fn(...args);
+            }, delay);
+        };
+    }
+
+    document.querySelector('#name-filter').addEventListener(
+        'input',
+        debounce((event) => filterTable(event.target.value), 200)
+    );
+
+    function filterTable(filterValue) {
+        function isFilterValueInFilterableGameColumn(gameRow) {
+            const gameName = gameRow.querySelector('.game-column-name').textContent;
+            const isFilterValueInGameName = gameName.toLowerCase().includes(filterValue.toLowerCase());
+
+            if (isFilterValueInGameName) {
+                return true;
+            }
+
+            const gamePlatform = gameRow.querySelector('.game-column-platform img').alt;
+            const isFilterValueInGamePlatform = gamePlatform.toLowerCase().includes(filterValue.toLowerCase());
+
+            if (isFilterValueInGamePlatform) {
+                return true;
+            }
+
+            const gameGenres = Array.from(gameRow.querySelectorAll('.game-column-genres li')).map(genre => genre.textContent);
+            const isFilterValueInGameGenres = gameGenres.some(genre => genre.toLowerCase().includes(filterValue.toLowerCase()));
+
+            if (isFilterValueInGameGenres) {
+                return true;
+            }
+
+            return false;
+        }
+
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.style.display = isFilterValueInFilterableGameColumn(row) ? 'table-row' : 'none';
+        })
+    }
+</script>
 </body>
 </html>
