@@ -6,5 +6,5 @@ parameters:
     paths:
         - src
         - tests
-        - generate.php
+        - generate-html.php
     tipsOfTheDay: false

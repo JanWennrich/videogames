@@ -19,5 +19,4 @@ $games = $csvParser->parseGamesCsvFile(__DIR__ . '/resources/games.csv');
 
 $html = $diContainer->get(HtmlGenerator::class)->generateHtml($games);
 
-file_put_contents(__DIR__ . '/build/index.html', $html);
 echo $html;
