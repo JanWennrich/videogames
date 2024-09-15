@@ -2,7 +2,8 @@
 
 namespace Jan\GamesLibrary;
 
-use Jan\GamesLibrary\Platform\AbstractPlatform;
+use Jan\GamesLibrary\GameScore\GameCommunityScore;
+use Jan\GamesLibrary\GameScore\GameCriticScore;
 
 /**
  * @template GameRecord of string[]
@@ -41,8 +42,14 @@ final readonly class GamesCsvParser
             $games[] = new Game(
                 name: $gameName,
                 platform: $this->getPlatformFromGameRecord($gameRecord),
-                playtimeInSeconds: $this->getPlayTimeFromGameRecord($gameRecord),
+                playtime: $this->getPlayTimeFromGameRecord($gameRecord),
                 isInstalled: $this->getInstallationStatusFromGameRecord($gameRecord),
+                description: $this->getDescriptionFromGameRecord($gameRecord),
+                isFavorite: $this->isFavoriteGameRecord($gameRecord),
+                features: $this->getFeaturesFromGameRecord($gameRecord),
+                genres: $this->getGenresFromGameRecord($gameRecord),
+                communityScore: $this->getCommunityScoreFromGameRecord($gameRecord),
+                criticScore: $this->getCriticScoreFromGameRecord($gameRecord),
             );
         }
         fclose($gamesCsvFileHandle);
@@ -69,9 +76,11 @@ final readonly class GamesCsvParser
     /**
      * @param GameRecord $gameRecord
      */
-    public function getPlayTimeFromGameRecord(array $gameRecord): int
+    public function getPlayTimeFromGameRecord(array $gameRecord): Playtime
     {
-        return intval($gameRecord[26] ?? 0);
+        $playtime = intval($gameRecord[26] ?? 0);
+
+        return Playtime::fromSeconds($playtime);
     }
 
     /**
@@ -88,5 +97,77 @@ final readonly class GamesCsvParser
     public function isGameRecordHidden(array $gameRecord): bool
     {
         return $gameRecord[8] === "True";
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     */
+    public function getDescriptionFromGameRecord(array $gameRecord): string
+    {
+        return $gameRecord[4] ?? '';
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     */
+    private function isFavoriteGameRecord(array $gameRecord): bool
+    {
+        return $gameRecord[7] === "True";
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     *
+     * @return GameFeature[]
+     */
+    private function getFeaturesFromGameRecord(array $gameRecord): array
+    {
+        $featuresString = $gameRecord[9] ?? '';
+
+        if ($featuresString === '') {
+            return [];
+        }
+
+        $features = explode(', ', $featuresString);
+
+        return array_map(fn(string $feature) => new GameFeature($feature), $features);
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     *
+     * @return GameGenre[]
+     */
+    private function getGenresFromGameRecord(array $gameRecord): array
+    {
+        $genresString = $gameRecord[11] ?? '';
+
+        if ($genresString === '') {
+            return [];
+        }
+
+        $genres = explode(', ', $genresString);
+
+        return array_map(fn(string $genre) => new GameGenre($genre), $genres);
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     */
+    private function getCommunityScoreFromGameRecord(array $gameRecord): GameCommunityScore
+    {
+        $score = intval($gameRecord[32] ?? 0);
+
+        return new GameCommunityScore($score);
+    }
+
+    /**
+     * @param GameRecord $gameRecord
+     */
+    private function getCriticScoreFromGameRecord(array $gameRecord): GameCriticScore
+    {
+        $score = intval($gameRecord[33] ?? 0);
+
+        return new GameCriticScore($score);
     }
 }

@@ -2,22 +2,33 @@
 
 namespace Jan\GamesLibrary;
 
-use DateInterval;
-use DateTimeImmutable;
-use Jan\GamesLibrary\Platform\AbstractPlatform;
+use Jan\GamesLibrary\GameScore\GameCommunityScore;
+use Jan\GamesLibrary\GameScore\GameCriticScore;
 
 final readonly class Game
 {
+    /**
+     * @param GameFeature[] $features
+     * @param GameGenre[] $genres
+     */
     public function __construct(
         public string $name,
         public Platform $platform,
-        public int $playtimeInSeconds,
-        public bool $isInstalled
+        public Playtime $playtime,
+        public bool $isInstalled,
+        public string $description,
+        public bool $isFavorite,
+        public array $features,
+        public array $genres,
+        public GameCommunityScore $communityScore,
+        public GameCriticScore $criticScore
     ) {
     }
 
-    public function getPlaytimeInHours(): int
+    public function isCouchCoopGame(): bool
     {
-        return intdiv($this->playtimeInSeconds, 3600);
+        $couchCoopFeature = new GameFeature('Supports Couch Co-Op');
+
+        return in_array($couchCoopFeature, $this->features);
     }
 }
