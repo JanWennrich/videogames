@@ -36,9 +36,9 @@
 <body>
 
 <label for="freetext-filter">Filter: </label><input type="text" id="freetext-filter">
-<label for="is-installed-filter">Show installed games only: </label><input type="checkbox" id="is-installed-filter">
-<label for="is-couch-coop-filter">Show couch co-op games only: </label><input type="checkbox" id="is-couch-coop-filter">
-<label for="is-favorite-filter">Show favorite games only: </label><input type="checkbox" id="is-favorite-filter">
+<label for="is-installed-filter">Show installed games only: </label><input type="checkbox" id="is-installed-filter" data-filter-type="installed">
+<label for="is-couch-coop-filter">Show couch co-op games only: </label><input type="checkbox" id="is-couch-coop-filter" data-filter-type="couch-coop">
+<label for="is-favorite-filter">Show favorite games only: </label><input type="checkbox" id="is-favorite-filter" data-filter-type="favorite">
 <table class="game-rows">
     <thead>
     <tr>
@@ -56,9 +56,9 @@
     <tbody>
     {% for game in games %}
         <tr class="game-row"
-            data-game-is-installed="{{ game.isInstalled }}"
-            data-game-is-couch-coop="{{ game.isCouchCoopGame }}"
-            data-game-is-favorite="{{ game.isFavorite }}"
+            {% if game.isInstalled %} data-game-is-installed="1" {% endif %}
+            {% if game.isCouchCoopGame %} data-game-is-couch-coop="1" {% endif %}
+            {% if game.isFavorite %} data-game-is-favorite="1" {% endif %}
         >
             <td class="game-column game-column-name">{{ game.name }}</td>
             <td class="game-column game-column-playtime">
@@ -168,76 +168,35 @@
     }
 </script>
 <script>
-    function hideUninstalledGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            const isGameInstalled = row.getAttribute('data-game-is-installed');
+    function showGamesByFilter(filterType) {
+        const filterClass = `hidden-by-${filterType}-filter`;
 
-            if (!isGameInstalled) {
-                row.classList.add('hidden-by-installed-filter');
-            } else {
-                row.classList.remove('hidden-by-installed-filter');
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.classList.remove(filterClass);
+        });
+    }
+
+    function hideGamesByFilter(filterType) {
+        const filterClass = `hidden-by-${filterType}-filter`;
+
+        document.querySelectorAll('.game-row').forEach((row) => {
+            const isHiddenByFilter = !row.hasAttribute(`data-game-is-${filterType}`);
+
+            if (isHiddenByFilter) {
+                row.classList.add(filterClass);
             }
         })
     }
 
-    function showUninstalledGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            row.classList.remove('hidden-by-installed-filter');
-        })
-    }
-
-    document.querySelector('#is-installed-filter').addEventListener(
-        'change',
-        event => event.target.checked ? hideUninstalledGames() : showUninstalledGames()
-    )
-</script>
-<script>
-    function hideNonCouchCoopGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            const isCouchCoopGame = row.getAttribute('data-game-is-couch-coop');
-
-            if (!isCouchCoopGame) {
-                row.classList.add('hidden-by-couch-coop-filter');
-            } else {
-                row.classList.remove('hidden-by-couch-coop-filter');
+    document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach((checkbox) => {
+        checkbox.addEventListener(
+            'change',
+            event => {
+                const filterType = event.target.getAttribute('data-filter-type');
+                event.target.checked ? hideGamesByFilter(filterType) : showGamesByFilter(filterType)
             }
-        })
-    }
-
-    function showNonCouchCoopGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            row.classList.remove('hidden-by-couch-coop-filter');
-        })
-    }
-
-    document.querySelector('#is-couch-coop-filter').addEventListener(
-        'change',
-        event => event.target.checked ? hideNonCouchCoopGames() : showNonCouchCoopGames()
-    )
-</script>
-<script>
-    function hideNonFavoriteGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            const isFavoriteGame = row.getAttribute('data-game-is-favorite');
-
-            if (!isFavoriteGame) {
-                row.classList.add('hidden-by-favorite-filter');
-            } else {
-                row.classList.remove('hidden-by-favorite-filter');
-            }
-        })
-    }
-
-    function showNonFavoriteGames() {
-        document.querySelectorAll('.game-row').forEach((row) => {
-            row.classList.remove('hidden-by-favorite-filter');
-        })
-    }
-
-    document.querySelector('#is-favorite-filter').addEventListener(
-        'change',
-        event => event.target.checked ? hideNonFavoriteGames() : showNonFavoriteGames()
-    )
+        )
+    })
 </script>
 </body>
 </html>
