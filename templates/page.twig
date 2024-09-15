@@ -21,6 +21,11 @@
             height: var(--game-row-height);
         }
 
+        .game-row.hidden-by-installed-filter,
+        .game-row.hidden-by-freetext-filter {
+            display: none;
+        }
+
         .game-column-icon img {
             height: var(--game-row-height);
         }
@@ -28,7 +33,8 @@
 </head>
 <body>
 
-<label for="name-filter">Filter: </label><input type="text" id="name-filter">
+<label for="freetext-filter">Filter: </label><input type="text" id="freetext-filter">
+<label for="is-installed-filter">Show installed games only: </label><input type="checkbox" id="is-installed-filter">
 <table class="game-rows">
     <thead>
     <tr>
@@ -45,7 +51,7 @@
     </thead>
     <tbody>
     {% for game in games %}
-        <tr class="game-row">
+        <tr class="game-row" data-game-is-installed="{{ game.isInstalled }}">
             <td class="game-column game-column-name">{{ game.name }}</td>
             <td class="game-column game-column-playtime">
                 <time datetime="PT{{ game.playtime.inHours }}H">
@@ -130,9 +136,37 @@
         }
 
         document.querySelectorAll('.game-row').forEach((row) => {
-            row.style.display = isFilterValueInFilterableGameColumn(row) ? 'table-row' : 'none';
+            if (isFilterValueInFilterableGameColumn(row)) {
+                row.classList.remove('hidden-by-freetext-filter');
+            } else {
+                row.classList.add('hidden-by-freetext-filter');
+            }
         })
     }
+</script>
+<script>
+    function hideUninstalledGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            const isGameInstalled = row.getAttribute('data-game-is-installed');
+
+            if (!isGameInstalled) {
+                row.classList.add('hidden-by-installed-filter');
+            } else {
+                row.classList.remove('hidden-by-installed-filter');
+            }
+        })
+    }
+
+    function showUninstalledGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.classList.remove('hidden-by-installed-filter');
+        })
+    }
+
+    document.querySelector('#is-installed-filter').addEventListener(
+        'change',
+        event => event.target.checked ? hideUninstalledGames() : showUninstalledGames()
+    )
 </script>
 </body>
 </html>
