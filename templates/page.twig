@@ -23,7 +23,8 @@
 
         .game-row.hidden-by-installed-filter,
         .game-row.hidden-by-freetext-filter,
-        .game-row.hidden-by-couch-coop-filter {
+        .game-row.hidden-by-couch-coop-filter,
+        .game-row.hidden-by-favorite-filter{
             display: none;
         }
 
@@ -37,6 +38,7 @@
 <label for="freetext-filter">Filter: </label><input type="text" id="freetext-filter">
 <label for="is-installed-filter">Show installed games only: </label><input type="checkbox" id="is-installed-filter">
 <label for="is-couch-coop-filter">Show couch co-op games only: </label><input type="checkbox" id="is-couch-coop-filter">
+<label for="is-favorite-filter">Show favorite games only: </label><input type="checkbox" id="is-favorite-filter">
 <table class="game-rows">
     <thead>
     <tr>
@@ -53,7 +55,11 @@
     </thead>
     <tbody>
     {% for game in games %}
-        <tr class="game-row" data-game-is-installed="{{ game.isInstalled }}" data-game-is-couch-coop="{{ game.isCouchCoopGame }}">
+        <tr class="game-row"
+            data-game-is-installed="{{ game.isInstalled }}"
+            data-game-is-couch-coop="{{ game.isCouchCoopGame }}"
+            data-game-is-favorite="{{ game.isFavorite }}"
+        >
             <td class="game-column game-column-name">{{ game.name }}</td>
             <td class="game-column game-column-playtime">
                 <time datetime="PT{{ game.playtime.inHours }}H">
@@ -207,6 +213,30 @@
     document.querySelector('#is-couch-coop-filter').addEventListener(
         'change',
         event => event.target.checked ? hideNonCouchCoopGames() : showNonCouchCoopGames()
+    )
+</script>
+<script>
+    function hideNonFavoriteGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            const isFavoriteGame = row.getAttribute('data-game-is-favorite');
+
+            if (!isFavoriteGame) {
+                row.classList.add('hidden-by-favorite-filter');
+            } else {
+                row.classList.remove('hidden-by-favorite-filter');
+            }
+        })
+    }
+
+    function showNonFavoriteGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.classList.remove('hidden-by-favorite-filter');
+        })
+    }
+
+    document.querySelector('#is-favorite-filter').addEventListener(
+        'change',
+        event => event.target.checked ? hideNonFavoriteGames() : showNonFavoriteGames()
     )
 </script>
 </body>
