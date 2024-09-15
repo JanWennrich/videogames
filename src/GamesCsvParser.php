@@ -2,8 +2,13 @@
 
 namespace Jan\GamesLibrary;
 
-use Jan\GamesLibrary\GameScore\GameCommunityScore;
-use Jan\GamesLibrary\GameScore\GameCriticScore;
+use Jan\GamesLibrary\GameAttribute\Feature;
+use Jan\GamesLibrary\GameAttribute\Genre;
+use Jan\GamesLibrary\GameAttribute\Score\CommunityScore;
+use Jan\GamesLibrary\GameAttribute\Score\CriticScore;
+use Jan\GamesLibrary\GameAttribute\Platform;
+use Jan\GamesLibrary\GameAttribute\PlatformFactory;
+use Jan\GamesLibrary\GameAttribute\Playtime;
 
 /**
  * @template GameRecord of string[]
@@ -118,7 +123,7 @@ final readonly class GamesCsvParser
     /**
      * @param GameRecord $gameRecord
      *
-     * @return GameFeature[]
+     * @return Feature[]
      */
     private function getFeaturesFromGameRecord(array $gameRecord): array
     {
@@ -130,13 +135,13 @@ final readonly class GamesCsvParser
 
         $features = explode(', ', $featuresString);
 
-        return array_map(fn(string $feature) => new GameFeature($feature), $features);
+        return array_map(fn(string $feature) => new Feature($feature), $features);
     }
 
     /**
      * @param GameRecord $gameRecord
      *
-     * @return GameGenre[]
+     * @return Genre[]
      */
     private function getGenresFromGameRecord(array $gameRecord): array
     {
@@ -148,26 +153,26 @@ final readonly class GamesCsvParser
 
         $genres = explode(', ', $genresString);
 
-        return array_map(fn(string $genre) => new GameGenre($genre), $genres);
+        return array_map(fn(string $genre) => new Genre($genre), $genres);
     }
 
     /**
      * @param GameRecord $gameRecord
      */
-    private function getCommunityScoreFromGameRecord(array $gameRecord): GameCommunityScore
+    private function getCommunityScoreFromGameRecord(array $gameRecord): CommunityScore
     {
         $score = intval($gameRecord[32] ?? 0);
 
-        return new GameCommunityScore($score);
+        return new CommunityScore($score);
     }
 
     /**
      * @param GameRecord $gameRecord
      */
-    private function getCriticScoreFromGameRecord(array $gameRecord): GameCriticScore
+    private function getCriticScoreFromGameRecord(array $gameRecord): CriticScore
     {
         $score = intval($gameRecord[33] ?? 0);
 
-        return new GameCriticScore($score);
+        return new CriticScore($score);
     }
 }

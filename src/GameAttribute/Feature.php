@@ -1,8 +1,8 @@
 <?php
 
-namespace Jan\GamesLibrary;
+namespace Jan\GamesLibrary\GameAttribute;
 
-class GameGenre
+class Feature
 {
     public function __construct(public string $name)
     {

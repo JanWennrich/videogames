@@ -2,14 +2,18 @@
 
 namespace Jan\GamesLibrary;
 
-use Jan\GamesLibrary\GameScore\GameCommunityScore;
-use Jan\GamesLibrary\GameScore\GameCriticScore;
+use Jan\GamesLibrary\GameAttribute\Feature;
+use Jan\GamesLibrary\GameAttribute\Genre;
+use Jan\GamesLibrary\GameAttribute\Score\CommunityScore;
+use Jan\GamesLibrary\GameAttribute\Score\CriticScore;
+use Jan\GamesLibrary\GameAttribute\Platform;
+use Jan\GamesLibrary\GameAttribute\Playtime;
 
 final readonly class Game
 {
     /**
-     * @param GameFeature[] $features
-     * @param GameGenre[] $genres
+     * @param Feature[] $features
+     * @param Genre[] $genres
      */
     public function __construct(
         public string $name,
@@ -20,14 +24,14 @@ final readonly class Game
         public bool $isFavorite,
         public array $features,
         public array $genres,
-        public GameCommunityScore $communityScore,
-        public GameCriticScore $criticScore
+        public CommunityScore $communityScore,
+        public CriticScore $criticScore
     ) {
     }
 
     public function isCouchCoopGame(): bool
     {
-        $couchCoopFeature = new GameFeature('Supports Couch Co-Op');
+        $couchCoopFeature = new Feature('Supports Couch Co-Op');
 
         return in_array($couchCoopFeature, $this->features);
     }

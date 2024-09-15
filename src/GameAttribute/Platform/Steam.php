@@ -1,8 +1,8 @@
 <?php
 
-namespace Jan\GamesLibrary\Platform;
+namespace Jan\GamesLibrary\GameAttribute\Platform;
 
-use Jan\GamesLibrary\Platform;
+use Jan\GamesLibrary\GameAttribute\Platform;
 
 final class Steam implements Platform
 {

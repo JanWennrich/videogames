@@ -1,6 +1,6 @@
 <?php
 
-namespace Jan\GamesLibrary;
+namespace Jan\GamesLibrary\GameAttribute;
 
 interface Platform
 {
