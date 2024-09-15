@@ -22,7 +22,8 @@
         }
 
         .game-row.hidden-by-installed-filter,
-        .game-row.hidden-by-freetext-filter {
+        .game-row.hidden-by-freetext-filter,
+        .game-row.hidden-by-couch-coop-filter {
             display: none;
         }
 
@@ -35,6 +36,7 @@
 
 <label for="freetext-filter">Filter: </label><input type="text" id="freetext-filter">
 <label for="is-installed-filter">Show installed games only: </label><input type="checkbox" id="is-installed-filter">
+<label for="is-couch-coop-filter">Show couch co-op games only: </label><input type="checkbox" id="is-couch-coop-filter">
 <table class="game-rows">
     <thead>
     <tr>
@@ -51,7 +53,7 @@
     </thead>
     <tbody>
     {% for game in games %}
-        <tr class="game-row" data-game-is-installed="{{ game.isInstalled }}">
+        <tr class="game-row" data-game-is-installed="{{ game.isInstalled }}" data-game-is-couch-coop="{{ game.isCouchCoopGame }}">
             <td class="game-column game-column-name">{{ game.name }}</td>
             <td class="game-column game-column-playtime">
                 <time datetime="PT{{ game.playtime.inHours }}H">
@@ -181,6 +183,30 @@
     document.querySelector('#is-installed-filter').addEventListener(
         'change',
         event => event.target.checked ? hideUninstalledGames() : showUninstalledGames()
+    )
+</script>
+<script>
+    function hideNonCouchCoopGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            const isCouchCoopGame = row.getAttribute('data-game-is-couch-coop');
+
+            if (!isCouchCoopGame) {
+                row.classList.add('hidden-by-couch-coop-filter');
+            } else {
+                row.classList.remove('hidden-by-couch-coop-filter');
+            }
+        })
+    }
+
+    function showNonCouchCoopGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.classList.remove('hidden-by-couch-coop-filter');
+        })
+    }
+
+    document.querySelector('#is-couch-coop-filter').addEventListener(
+        'change',
+        event => event.target.checked ? hideNonCouchCoopGames() : showNonCouchCoopGames()
     )
 </script>
 </body>
