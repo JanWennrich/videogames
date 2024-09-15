@@ -31040,24 +31040,33 @@
         </tbody>
 </table>
 <script>
-    function debounce(fn, delay) {
-        let timeoutId;
-        return function (...args) {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-            }
-            timeoutId = setTimeout(() => {
-                fn(...args);
-            }, delay);
+    function debounce(callback, wait) {
+        let timeoutId = null;
+        return (...args) => {
+            window.clearTimeout(timeoutId);
+            timeoutId = window.setTimeout(() => {
+                callback(...args);
+            }, wait);
         };
     }
 
-    document.querySelector('#name-filter').addEventListener(
+    document.querySelector('#freetext-filter').addEventListener(
         'input',
-        debounce((event) => filterTable(event.target.value), 200)
+        debounce(onFreetextFilterInputEvent, 350)
     );
 
-    function filterTable(filterValue) {
+    function onFreetextFilterInputEvent(event) {
+        const freetextFilter = event.target.value;
+
+        if (freetextFilter === '') {
+            showFreetextFilteredGames();
+            return;
+        }
+
+        hideGamesByFreetextFilter(event.target.value);
+    }
+
+    function hideGamesByFreetextFilter(filterValue) {
         function isFilterValueInFilterableGameColumn(gameRow) {
             const gameName = gameRow.querySelector('.game-column-name').textContent;
             const isFilterValueInGameName = gameName.toLowerCase().includes(filterValue.toLowerCase());
@@ -31089,6 +31098,12 @@
             } else {
                 row.classList.add('hidden-by-freetext-filter');
             }
+        })
+    }
+
+    function showFreetextFilteredGames() {
+        document.querySelectorAll('.game-row').forEach((row) => {
+            row.classList.remove('hidden-by-freetext-filter');
         })
     }
 </script>
