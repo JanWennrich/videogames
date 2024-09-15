@@ -15,7 +15,7 @@ $diContainer = new \DI\Container([
 
 $csvParser = $diContainer->get(GamesCsvParser::class);
 
-$games = $csvParser->parseGamesCsvFile(__DIR__ . '/resources/games.csv');
+$games = $csvParser->parseGamesCsvFile(__DIR__ . '/assets/games.csv');
 
 $html = $diContainer->get(HtmlGenerator::class)->generateHtml($games);
 
