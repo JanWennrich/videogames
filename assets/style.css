@@ -1,0 +1,64 @@
+:root {
+    --game-row-height: 30px;
+    --font-size: 16px;
+    --color-background: #242629;
+    --color-background-darkened: #16161a;
+    --color-headline: #fffffe;
+    --color-paragraph: #94a1b2;
+    --color-button: #7f5af0;
+    --color-button-text: #fffffe;
+    --color-highlight: #7f5af0;
+    --color-secondary: #72757e;
+    --color-tertiary: #2cb67d;
+}
+
+@font-face {
+    font-family: Oswald;
+    src: url('fonts/Oswald-VariableFont_wght.ttf');
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-paragraph);
+    font-family: "Oswald", sans-serif;
+    font-size: var(--font-size);
+}
+
+thead {
+    color: var(--color-headline);
+}
+
+label {
+    color: var(--color-headline);
+}
+
+input[type="text"] {
+    background-color: var(--color-secondary);
+    border: none;
+    border-radius: 2px;
+    color: var(--color-button-text);
+}
+
+input[type="checkbox"] {
+    accent-color: var(--color-highlight);
+}
+
+.game-rows {
+    width: 100%;
+    max-width: 800px;
+}
+
+.game-row {
+    height: var(--game-row-height);
+}
+
+.game-row.hidden-by-installed-filter,
+.game-row.hidden-by-freetext-filter,
+.game-row.hidden-by-couch-coop-filter,
+.game-row.hidden-by-favorite-filter{
+    display: none;
+}
+
+.game-column-icon img {
+    height: var(--game-row-height);
+}
