@@ -66,10 +66,16 @@
                 </ul>
             </td>
             <td class="game-column game-column-community-score">
-                {{ game.communityScore.value }}
+                <div class="game-score">
+                    <label>{{ game.communityScore.value }}</label>
+                    <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.communityScore.value }}"></meter>
+                </div>
             </td>
             <td class="game-column game-column-critic-score">
-                {{ game.criticScore.value }}
+                <div class="game-score">
+                    <label>{{ game.criticScore.value }}</label>
+                    <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.criticScore.value }}"></meter>
+                </div>
             </td>
         </tr>
     {% endfor %}

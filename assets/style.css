@@ -62,3 +62,15 @@ input[type="checkbox"] {
 .game-column-icon img {
     height: var(--game-row-height);
 }
+
+.game-score {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.game-score label  {
+    text-align: center;
+    font-size: 0.75em;
+}
