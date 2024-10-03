@@ -59,6 +59,10 @@ input[type="checkbox"] {
     display: none;
 }
 
+.game-column-name {
+    color: var(--color-headline);
+}
+
 .game-column-icon img {
     height: var(--game-row-height);
 }
