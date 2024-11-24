@@ -34,6 +34,7 @@ final readonly class GamesCsvParser
 
         fgetcsv(stream: $gamesCsvFileHandle); // Skip first line containing column names
         while (($gameRecord = fgetcsv(stream: $gamesCsvFileHandle, separator: ",", enclosure: '"')) !== false) {
+            /** @var GameRecord $gameRecord */
             if ($this->isGameRecordHidden($gameRecord)) {
                 continue;
             }
