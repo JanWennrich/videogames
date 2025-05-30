@@ -50,6 +50,7 @@ input[type="checkbox"] {
 
 .game-row {
     height: var(--game-row-height);
+    text-align: center;
 }
 
 .game-row.hidden-by-installed-filter,
@@ -133,7 +134,6 @@ thead {
 }
 th, td {
     padding: 10px 12px;
-    text-align: left;
 }
 th {
     font-size: 1.1rem;
