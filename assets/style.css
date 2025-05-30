@@ -78,3 +78,93 @@ input[type="checkbox"] {
     text-align: center;
     font-size: 0.75em;
 }
+
+/* --- Enhanced page styling --- */
+.main-container {
+    max-width: 900px;
+    margin: 40px auto 0 auto;
+    background: var(--color-background-darkened);
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    padding: 32px 40px 40px 40px;
+}
+.page-title {
+    color: var(--color-headline);
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 32px;
+    justify-content: center;
+    background: var(--color-background);
+    padding: 18px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.filter-bar label {
+    margin-right: 4px;
+    font-weight: 500;
+}
+input[type="text"] {
+    padding: 7px 10px;
+    min-width: 200px;
+    font-size: 1rem;
+    margin-right: 10px;
+}
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+}
+.game-rows {
+    margin-top: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+}
+thead {
+    background: var(--color-background-darkened);
+}
+th, td {
+    padding: 10px 12px;
+    text-align: left;
+}
+th {
+    font-size: 1.1rem;
+    color: var(--color-headline);
+    background: var(--color-background-darkened);
+}
+tbody tr:nth-child(even) {
+    background: #232336;
+}
+tbody tr:nth-child(odd) {
+    background: #1a1a23;
+}
+tr {
+    transition: background 0.2s;
+}
+tr:hover {
+    background: var(--color-tertiary);
+    color: #fff;
+}
+.button-primary {
+    background: var(--color-button);
+    color: var(--color-button-text);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.18s;
+    margin-left: 8px;
+}
+.button-primary:hover {
+    background: #5a3fc0;
+}
+/* --- End enhanced styling --- */

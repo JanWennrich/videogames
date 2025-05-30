@@ -2,10 +2,11 @@
 <html lang="en">
 {% include 'head.twig' %}
 <body>
-{% include 'filter.twig' %}
-
-{% include 'games-table.twig' %}
-
+<div class="main-container">
+    <div class="page-title">Jan's PC Game Library 🎮</div>
+    {% include 'filter.twig' %}
+    {% include 'games-table.twig' %}
+</div>
 <script src="/assets/script.js"></script>
 </body>
 </html>
