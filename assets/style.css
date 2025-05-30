@@ -64,8 +64,16 @@ input[type="checkbox"] {
     color: var(--color-headline);
 }
 
-.game-column-icon img {
-    height: var(--game-row-height);
+.game-column-platform-icon {
+    max-height: var(--game-row-height);
+}
+
+.game-column-platform-icon-gog,
+.game-column-platform-icon-ea-games-origin,
+.game-column-platform-icon-ubisoft,
+.game-column-platform-icon-battle-net,
+.game-column-platform-icon-unknown {
+    filter: invert(1);
 }
 
 .game-score {

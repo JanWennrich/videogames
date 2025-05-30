@@ -14,7 +14,9 @@
     <td class="game-column game-column-platform">
         <img src="{{ game.platform.iconPath }}"
              alt="{{ game.platform.name }}"
-             title="{{ game.platform.name }}"/>
+             title="{{ game.platform.name }}"
+             class="game-column-platform-icon game-column-platform-icon-{{ game.platform.name|lower|replace({' ':'-','(':'',')':'','.':'-'}) }}"
+        />
     </td>
     <td class="game-column game-column-installed">
         {{ game.isInstalled ? "🎮" }}
