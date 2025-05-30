@@ -95,6 +95,9 @@ input[type="checkbox"] {
     border-radius: 12px;
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     padding: 32px 40px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .page-title {
     color: var(--color-headline);
@@ -140,7 +143,7 @@ thead {
     background: var(--color-background-darkened);
 }
 th, td {
-    padding: 10px 12px;
+    padding: 10px;
 }
 th {
     font-size: 1.1rem;
