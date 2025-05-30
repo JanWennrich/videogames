@@ -1,0 +1,8 @@
+<table class="game-rows">
+    {% include 'games-table-head.twig' %}
+    <tbody>
+    {% for game in games %}
+        {% include 'game.twig' %}
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+<tr class="game-row"
+        {% if game.isInstalled %} data-game-is-installed="1" {% endif %}
+        {% if game.isCouchCoopGame %} data-game-is-couch-coop="1" {% endif %}
+        {% if game.isFavorite %} data-game-is-favorite="1" {% endif %}
+>
+    <td class="game-column game-column-name">{{ game.name }}</td>
+    <td class="game-column game-column-playtime">
+        <time datetime="PT{{ game.playtime.inHours }}H">
+            {% if game.playtime.inHours > 0 %}
+                {{ game.playtime.inHours }} h
+            {% endif %}
+        </time>
+    </td>
+    <td class="game-column game-column-platform">
+        <img src="{{ game.platform.iconPath }}"
+             alt="{{ game.platform.name }}"
+             title="{{ game.platform.name }}"/>
+    </td>
+    <td class="game-column game-column-installed">
+        {{ game.isInstalled ? "🎮" }}
+    </td>
+    <td class="game-column game-column-favorite">
+        {{ game.isFavorite ? "⭐️" }}
+    </td>
+    <td class="game-column game-column-couch-coop">
+        {{ game.isCouchCoopGame ? "🤝" }}
+    </td>
+    <td class="game-column game-column-genres">
+        <ul>
+            {% for genre in game.genres %}
+                <li>{{ genre.name }}</li>
+            {% endfor %}
+        </ul>
+    </td>
+    <td class="game-column game-column-community-score">
+        <div class="game-score">
+            <label>{{ game.communityScore.value }}</label>
+            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.communityScore.value }}"></meter>
+        </div>
+    </td>
+    <td class="game-column game-column-critic-score">
+        <div class="game-score">
+            <label>{{ game.criticScore.value }}</label>
+            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.criticScore.value }}"></meter>
+        </div>
+    </td>
+</tr>
