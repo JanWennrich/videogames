@@ -32,16 +32,18 @@
             {% endfor %}
         </ul>
     </td>
-    <td class="game-column game-column-community-score">
-        <div class="game-score">
-            <label>{{ game.communityScore.value }}</label>
-            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.communityScore.value }}"></meter>
+    <td class="game-column game-column-score">
+        {% if game.communityScore.value %}
+        <div class="game-score game-score-community">
+            <label title="Community score">{{ game.communityScore.value }}</label>
+            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.communityScore.value }}" title="Community score"></meter>
         </div>
-    </td>
-    <td class="game-column game-column-critic-score">
-        <div class="game-score">
-            <label>{{ game.criticScore.value }}</label>
-            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.criticScore.value }}"></meter>
+        {% endif %}
+        {% if game.criticScore.value %}
+        <div class="game-score game-score-critic">
+            <label title="Critic score">{{ game.criticScore.value }}</label>
+            <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.criticScore.value }}" title="Critic score"></meter>
         </div>
+        {% endif %}
     </td>
 </tr>
