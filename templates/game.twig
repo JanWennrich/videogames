@@ -26,9 +26,9 @@
         {{ game.isCouchCoopGame ? "🤝" }}
     </td>
     <td class="game-column game-column-genres">
-        <ul>
+        <ul class="genre-tags">
             {% for genre in game.genres %}
-                <li>{{ genre.name }}</li>
+                <li class="genre-tag">{{ genre.name }}</li>
             {% endfor %}
         </ul>
     </td>
