@@ -3,38 +3,38 @@
         {% if game.isCouchCoopGame %} data-game-is-couch-coop="1" {% endif %}
         {% if game.isFavorite %} data-game-is-favorite="1" {% endif %}
 >
-    <td class="game-column game-column-name">{{ game.name }}</td>
-    <td class="game-column game-column-playtime">
+    <td class="game-column game-column-name" data-label="Title">{{ game.name }}</td>
+    <td class="game-column game-column-playtime" data-label="Playtime">
         <time datetime="PT{{ game.playtime.inHours }}H">
             {% if game.playtime.inHours > 0 %}
                 {{ game.playtime.inHours }} h
             {% endif %}
         </time>
     </td>
-    <td class="game-column game-column-platform">
+    <td class="game-column game-column-platform" data-label="Platform">
         <img src="{{ game.platform.iconPath }}"
              alt="{{ game.platform.name }}"
              title="{{ game.platform.name }}"
              class="game-column-platform-icon game-column-platform-icon-{{ game.platform.name|lower|replace({' ':'-','(':'',')':'','.':'-'}) }}"
         />
     </td>
-    <td class="game-column game-column-installed">
+    <td class="game-column game-column-installed" data-label="Installed?">
         {{ game.isInstalled ? "🎮" }}
     </td>
-    <td class="game-column game-column-favorite">
+    <td class="game-column game-column-favorite" data-label="Favorite?">
         {{ game.isFavorite ? "⭐️" }}
     </td>
-    <td class="game-column game-column-couch-coop">
+    <td class="game-column game-column-couch-coop" data-label="Couch Coop?">
         {{ game.isCouchCoopGame ? "🤝" }}
     </td>
-    <td class="game-column game-column-genres">
+    <td class="game-column game-column-genres" data-label="Genres">
         <ul class="genre-tags">
             {% for genre in game.genres %}
                 <li class="genre-tag">{{ genre.name }}</li>
             {% endfor %}
         </ul>
     </td>
-    <td class="game-column game-column-score">
+    <td class="game-column game-column-score" data-label="Score">
         {% if game.communityScore.value %}
         <div class="game-score game-score-community">
             <label title="Community score">{{ game.communityScore.value }}</label>
