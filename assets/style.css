@@ -252,7 +252,8 @@ td {
 .game-row > .game-column-platform,
 .game-row > .game-column-installed,
 .game-row > .game-column-favorite,
-.game-row > .game-column-couch-coop {
+.game-row > .game-column-couch-coop,
+.game-row > .game-column-is-empty {
     display: none;
 }
 
@@ -284,6 +285,10 @@ td {
     justify-content: flex-end;
 }
 
+.game-card-platform-name {
+    display: none;
+}
+
 .game-column-platform-icon {
     max-height: 18px;
 }
@@ -310,6 +315,7 @@ td {
 .game-status-pill {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     min-height: 28px;
     padding: 0 10px;
     border-radius: 999px;
@@ -317,6 +323,10 @@ td {
     color: var(--color-headline);
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+.game-status-pill span[aria-hidden="true"] {
+    font-size: 0.9em;
 }
 
 .game-score {
@@ -453,8 +463,8 @@ tr {
 }
 
 tr:hover {
-    background: var(--color-tertiary);
-    color: #fff;
+    background: rgba(44, 182, 125, 0.12);
+    color: inherit;
 }
 
 /* Genre tags / pills */
@@ -478,6 +488,7 @@ tr:hover {
     }
 
     .main-container {
+        width: min(100%, 980px);
         background: var(--color-background-darkened);
         border-radius: 12px;
         box-shadow: 0 4px 32px rgba(0,0,0,0.18);
@@ -528,6 +539,9 @@ tr:hover {
     .game-rows {
         display: table;
         width: 100%;
+        table-layout: fixed;
+        border-collapse: separate;
+        border-spacing: 0;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.13);
@@ -555,8 +569,9 @@ tr:hover {
 
     .game-row > td {
         display: table-cell;
-        padding: 10px;
+        padding: 14px 12px;
         vertical-align: middle;
+        border-top: 1px solid rgba(255,255,255,0.04);
     }
 
     .game-row > td + td {
@@ -571,62 +586,138 @@ tr:hover {
     .game-row > .game-column-platform,
     .game-row > .game-column-installed,
     .game-row > .game-column-favorite,
-    .game-row > .game-column-couch-coop,
-    .game-row > .game-column-score {
-        display: table-cell;
+    .game-row > .game-column-couch-coop {
+        display: none;
     }
 
-    .game-card-aside,
-    .game-card-platform-summary,
-    .game-card-status,
     .genre-tag-overflow {
         display: none;
     }
 
     .game-card-header {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 
     .game-card-title {
-        font-size: inherit;
-        line-height: inherit;
+        font-size: 1.15rem;
+        line-height: 1.2;
+    }
+
+    .game-card-aside {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .game-card-platform-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .game-card-platform-name {
+        display: inline;
+        color: var(--color-paragraph);
+        font-size: 0.9rem;
+    }
+
+    .game-card-playtime {
+        font-size: 0.9rem;
+        color: var(--color-secondary);
+    }
+
+    .game-card-status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .game-column-name,
+    .game-column-genres,
+    .game-column-score {
+        text-align: left;
+    }
+
+    .game-column-name {
+        width: 44%;
+        color: var(--color-headline);
+        font-weight: 600;
+    }
+
+    .game-column-genres {
+        width: 32%;
+    }
+
+    .game-column-score {
+        width: 24%;
+    }
+
+    .game-row > .game-column-score {
+        display: table-cell;
+    }
+
+    .game-score {
+        display: inline-flex;
+        min-width: 0;
+    }
+
+    .game-score + .game-score {
+        margin-top: 0;
+        margin-left: 8px;
     }
 
     .game-score label {
-        text-align: center;
-        display: block;
-        min-height: 0;
-        width: auto;
-        padding: 0;
-        border: none;
-        border-radius: 0;
-        font-size: inherit;
-        font-weight: inherit;
-        color: inherit;
-        background: transparent;
-        box-shadow: none;
+        text-align: left;
+        display: inline-flex;
     }
 
     .game-score meter {
-        display: block;
-        width: 100%;
-        max-width: 100%;
+        display: none;
     }
 
     th {
-        padding: 10px;
-        font-size: 1.1rem;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 14px 12px 12px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: none;
         color: var(--color-headline);
         background: var(--color-background-darkened);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    th {
+        text-align: left;
     }
 
     .game-column-platform-icon {
-        max-height: var(--game-row-height);
-        margin: 0 auto;
+        max-height: 1.1rem;
+        margin: 0;
     }
 
     .genre-tags {
-        justify-content: center;
+        justify-content: flex-start;
+    }
+
+    .genre-tag {
+        padding: 2px 10px;
+        font-size: 0.84rem;
+        background: rgba(255,255,255,0.08);
+    }
+
+    .game-status-pill {
+        min-height: 22px;
+        padding: 0 8px;
+        font-size: 0.78rem;
+        background: rgba(255,255,255,0.06);
+        color: var(--color-paragraph);
     }
 
     .genre-tag-mobile-hidden {
@@ -637,6 +728,12 @@ tr:hover {
 @media (max-width: 699px) {
     .genre-tag-mobile-hidden {
         display: none;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-container {
+        width: min(100%, 1020px);
     }
 }
 

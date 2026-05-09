@@ -16,18 +16,19 @@
                          title="{{ game.platform.name }}"
                          class="game-column-platform-icon game-column-platform-icon-{{ game.platform.name|lower|replace({' ':'-','(':'',')':'','.':'-'}) }}"
                     />
+                    <span class="game-card-platform-name">{{ game.platform.name }}</span>
                 </div>
             </div>
         </div>
         <div class="game-card-status">
             {% if game.isInstalled %}
-                <span class="game-status-pill">Installed</span>
+                <span class="game-status-pill"><span aria-hidden="true">🎮</span><span>Installed</span></span>
             {% endif %}
             {% if game.isFavorite %}
-                <span class="game-status-pill">Favorite</span>
+                <span class="game-status-pill"><span aria-hidden="true">⭐️</span><span>Favorite</span></span>
             {% endif %}
             {% if game.isCouchCoopGame %}
-                <span class="game-status-pill">Couch co-op</span>
+                <span class="game-status-pill"><span aria-hidden="true">🤝</span><span>Couch co-op</span></span>
             {% endif %}
         </div>
     </td>
@@ -54,8 +55,8 @@
     <td class="game-column game-column-couch-coop" data-label="Couch Coop?">
         {{ game.isCouchCoopGame ? "🤝" }}
     </td>
-    {% if game.genres|length > 0 %}
-        <td class="game-column game-column-genres" data-label="Genres">
+    <td class="game-column game-column-genres{% if game.genres|length == 0 %} game-column-is-empty{% endif %}" data-label="Genres">
+        {% if game.genres|length > 0 %}
             <ul class="genre-tags">
                 {% for genre in game.genres %}
                     <li class="genre-tag{% if loop.index > 3 %} genre-tag-mobile-hidden{% endif %}">{{ genre.name }}</li>
@@ -75,10 +76,10 @@
                     </li>
                 {% endif %}
             </ul>
-        </td>
-    {% endif %}
-    {% if game.communityScore.value or game.criticScore.value %}
-        <td class="game-column game-column-score" data-label="Score">
+        {% endif %}
+    </td>
+    <td class="game-column game-column-score{% if not (game.communityScore.value or game.criticScore.value) %} game-column-is-empty{% endif %}" data-label="Score">
+        {% if game.communityScore.value or game.criticScore.value %}
             {% if game.communityScore.value %}
             <div class="game-score game-score-community{% if game.communityScore.value >= 90 %} game-score-excellent{% elseif game.communityScore.value >= 75 %} game-score-good{% elseif game.communityScore.value >= 60 %} game-score-fair{% else %} game-score-poor{% endif %}">
                 <label title="Community score"><span>Users</span><span>{{ game.communityScore.value }}</span></label>
@@ -91,6 +92,6 @@
                 <meter min="0" max="100" low="50" high="75" optimum="90" value="{{ game.criticScore.value }}" title="Critic score"></meter>
             </div>
             {% endif %}
-        </td>
-    {% endif %}
+        {% endif %}
+    </td>
 </tr>
