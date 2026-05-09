@@ -1,21 +1,29 @@
 <div id="filter" class="filter-bar">
     <label for="freetext-filter" class="filter-search">
-        <span>Filter</span>
+        <span class="filter-search-header">
+            <span>Filter</span>
+            <span class="filter-results" aria-live="polite">
+                <span id="results-count">{{ games|length }}</span> games
+            </span>
+        </span>
         <input type="text" id="freetext-filter">
     </label>
 
     <label for="is-installed-filter" class="filter-toggle">
         <input type="checkbox" id="is-installed-filter" data-filter-type="installed">
-        <span>Show installed games only</span>
+        <span class="filter-toggle-label filter-toggle-label-full">Show installed games only</span>
+        <span class="filter-toggle-label filter-toggle-label-short">Installed</span>
     </label>
 
     <label for="is-couch-coop-filter" class="filter-toggle">
         <input type="checkbox" id="is-couch-coop-filter" data-filter-type="couch-coop">
-        <span>Show couch co-op games only</span>
+        <span class="filter-toggle-label filter-toggle-label-full">Show couch co-op games only</span>
+        <span class="filter-toggle-label filter-toggle-label-short">Couch co-op</span>
     </label>
 
     <label for="is-favorite-filter" class="filter-toggle">
         <input type="checkbox" id="is-favorite-filter" data-filter-type="favorite">
-        <span>Show favorite games only</span>
+        <span class="filter-toggle-label filter-toggle-label-full">Show favorite games only</span>
+        <span class="filter-toggle-label filter-toggle-label-short">Favorites</span>
     </label>
 </div>

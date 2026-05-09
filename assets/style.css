@@ -125,6 +125,9 @@ input[type="checkbox"] {
     background: var(--color-background-darkened);
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .filter-search {
@@ -133,11 +136,34 @@ input[type="checkbox"] {
     font-weight: 500;
 }
 
+.filter-search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .filter-toggle {
     display: flex;
     align-items: center;
     gap: 10px;
     font-weight: 500;
+}
+
+.filter-toggle-label-short {
+    display: inline;
+}
+
+.filter-toggle-label-full {
+    display: none;
+}
+
+.filter-results {
+    margin: 0;
+    color: var(--color-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 input[type="text"] {
@@ -178,10 +204,11 @@ tbody tr:nth-child(odd) {
 
 .game-row {
     display: block;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    padding: 14px;
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 16px 14px;
     height: auto;
 }
 
@@ -200,7 +227,7 @@ td {
 }
 
 .game-row > td + td {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .game-row > td::before {
@@ -216,16 +243,147 @@ td {
     overflow-wrap: anywhere;
 }
 
+.game-row > .game-column-name::before {
+    content: none;
+    display: none;
+}
+
+.game-row > .game-column-playtime,
+.game-row > .game-column-platform,
+.game-row > .game-column-installed,
+.game-row > .game-column-favorite,
+.game-row > .game-column-couch-coop {
+    display: none;
+}
+
+.game-card-title {
+    color: var(--color-headline);
+    font-size: 1.2rem;
+    line-height: 1.15;
+}
+
+.game-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.game-card-aside {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex: 0 0 auto;
+}
+
+.game-card-platform-summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .game-column-platform-icon {
     max-height: 18px;
 }
 
+.game-card-header .game-column-platform-icon {
+    height: 1.2em;
+    max-height: none;
+    width: auto;
+}
+
+.game-card-playtime {
+    color: var(--color-paragraph);
+    font-size: 0.82rem;
+    line-height: 1;
+}
+
+.game-card-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.game-status-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(127, 90, 240, 0.16);
+    color: var(--color-headline);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
 .game-score {
+    display: grid;
     gap: 8px;
 }
 
+.game-row > .game-column-score {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.game-row > .game-column-score::before {
+    flex-basis: 100%;
+}
+
+.game-score label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: auto;
+    min-height: 0;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.92em;
+    font-weight: 500;
+    color: #fff;
+    background: var(--color-secondary);
+    border: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+}
+
+.game-score label span:first-child {
+    color: var(--color-paragraph);
+}
+
+.game-score label span:last-child {
+    color: var(--color-headline);
+    font-size: inherit;
+    font-weight: inherit;
+}
+
 .game-score meter {
-    width: min(100%, 11rem);
+    display: none;
+}
+
+.game-score-excellent label {
+    background: rgba(44, 182, 125, 0.2);
+    border-color: rgba(44, 182, 125, 0.4);
+}
+
+.game-score-good label {
+    background: rgba(143, 201, 58, 0.18);
+    border-color: rgba(143, 201, 58, 0.36);
+}
+
+.game-score-fair label {
+    background: rgba(255, 177, 66, 0.18);
+    border-color: rgba(255, 177, 66, 0.34);
+}
+
+.game-score-poor label {
+    background: rgba(225, 95, 65, 0.18);
+    border-color: rgba(225, 95, 65, 0.34);
 }
 
 .genre-tags {
@@ -250,6 +408,28 @@ td {
 .genre-tag:hover {
     background: var(--color-button);
     color: var(--color-button-text);
+}
+
+.genre-tag-overflow {
+    display: inline-block;
+}
+
+.genre-tag-toggle {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.18);
+    color: var(--color-paragraph);
+    cursor: pointer;
+    appearance: none;
+    font: inherit;
+}
+
+.genre-tag-toggle:focus-visible {
+    outline: 2px solid var(--color-highlight);
+    outline-offset: 2px;
+}
+
+.genre-tags-expanded .genre-tag-mobile-hidden {
+    display: inline-block;
 }
 
 .button-primary {
@@ -319,6 +499,7 @@ tr:hover {
         background: var(--color-background);
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        position: static;
     }
 
     .filter-search {
@@ -330,6 +511,18 @@ tr:hover {
 
     .filter-toggle {
         justify-self: center;
+    }
+
+    .filter-toggle-label-short {
+        display: none;
+    }
+
+    .filter-toggle-label-full {
+        display: inline;
+    }
+
+    .filter-results {
+        justify-self: auto;
     }
 
     .game-rows {
@@ -354,6 +547,7 @@ tr:hover {
         margin-bottom: 0;
         border-radius: 0;
         box-shadow: none;
+        border: none;
         padding: 0;
         height: var(--game-row-height);
         text-align: center;
@@ -373,8 +567,50 @@ tr:hover {
         content: none;
     }
 
+    .game-row > .game-column-playtime,
+    .game-row > .game-column-platform,
+    .game-row > .game-column-installed,
+    .game-row > .game-column-favorite,
+    .game-row > .game-column-couch-coop,
+    .game-row > .game-column-score {
+        display: table-cell;
+    }
+
+    .game-card-aside,
+    .game-card-platform-summary,
+    .game-card-status,
+    .genre-tag-overflow {
+        display: none;
+    }
+
+    .game-card-header {
+        display: block;
+    }
+
+    .game-card-title {
+        font-size: inherit;
+        line-height: inherit;
+    }
+
     .game-score label {
         text-align: center;
+        display: block;
+        min-height: 0;
+        width: auto;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        font-size: inherit;
+        font-weight: inherit;
+        color: inherit;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .game-score meter {
+        display: block;
+        width: 100%;
+        max-width: 100%;
     }
 
     th {
@@ -391,6 +627,16 @@ tr:hover {
 
     .genre-tags {
         justify-content: center;
+    }
+
+    .genre-tag-mobile-hidden {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 699px) {
+    .genre-tag-mobile-hidden {
+        display: none;
     }
 }
 
