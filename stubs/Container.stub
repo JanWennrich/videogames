@@ -1,0 +1,19 @@
+<?php
+
+namespace DI;
+
+class Container
+{
+    /**
+     * This tells PHPStan that requesting a class-string will always return an object that is an instance of that class.
+     * The PHP-DI default PHPDoc also allows mixed as return value.
+     *
+     * @template T of object
+     * @param class-string<T>|string $id
+     *
+     * @return ($id is class-string<T> ? T : mixed)
+     */
+    public function get(string $id): mixed
+    {
+    }
+}

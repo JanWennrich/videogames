@@ -7,4 +7,6 @@ parameters:
         - src
         - tests
         - generate-html.php
+    stubFiles:
+        - stubs/Container.stub
     tipsOfTheDay: false
